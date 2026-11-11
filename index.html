@@ -110,9 +110,10 @@
   .campo .beneficio{display:flex;gap:12px;margin:0;align-items:flex-start;padding:13px 15px;border:1px solid rgba(255,255,255,.22);border-radius:12px;background:rgba(255,255,255,.06);cursor:pointer;font-size:14.5px;line-height:1.45;color:var(--cream);}
   .campo .beneficio input{width:19px;height:19px;padding:0;border:none;background:none;border-radius:4px;appearance:auto;-webkit-appearance:checkbox;accent-color:var(--verde);margin-top:1px;flex:none;}
   .beneficio:has(input:checked){border-color:var(--verde);background:rgba(202,232,127,.14);}
-  .caja-abogado{border:1px solid rgba(202,232,127,.45);background:rgba(202,232,127,.07);border-radius:16px;padding:16px 16px 6px;margin-top:6px;}
+  .caja-abogado{border:1px solid rgba(202,232,127,.45);background:rgba(202,232,127,.07);border-radius:16px;padding:16px 16px 6px;margin-top:6px;margin-bottom:14px;}
   .caja-abogado .titulo{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--verde);font-weight:600;margin-bottom:12px;}
   #opComprobante{grid-template-columns:repeat(3,1fr);}
+  #opAcceso .opcion:first-child{grid-column:1/-1;flex-direction:row;justify-content:center;gap:10px;padding:14px;border-color:rgba(202,232,127,.45);}
   .fotos.tres{grid-template-columns:1fr 1fr 1fr;}
   @media(max-width:520px){.fotos.tres{grid-template-columns:1fr;}}
   .nota{color:var(--cream-dim);font-size:13.5px;line-height:1.5;max-width:520px;margin:10px auto 0;}
@@ -149,11 +150,11 @@
   <!-- PASO 2: Formacion + actividad (+ bloque abogados) -->
   <section class="step" data-step="1">
     <div class="eyebrow">Alta de cliente <span class="dot"></span> Paso 2 de 4</div>
-    <h1>¿A qué te <span class="accent">dedicás</span>?</h1>
-    <p class="sub">Contanos tu formación y cómo vas a usar el espacio.</p>
-    <div class="campos">
-      <div class="campo"><label for="formacion">Formación / profesión</label><select id="formacion" onchange="cambioFormacion()"></select><span class="error"></span></div>
-      <div class="campo oculto" id="formacionOtraWrap"><label for="formacionOtra">¿Cuál?</label><input id="formacionOtra" placeholder="Ej: Arquitectura"><span class="error"></span></div>
+    <h1>¿Cómo vas a usar <span class="accent">Oruga</span>?</h1>
+    <p class="sub">Elegí la opción que mejor te describe.</p>
+    <div class="opciones compactas" id="opAcceso"></div>
+    <span class="error" id="errAcceso"></span>
+    <div class="campos bloque">
 
       <div class="caja-abogado oculto" id="cajaAbogado">
         <div class="titulo">⚖️ Matriculados del Colegio Público de Abogados</div>
@@ -170,11 +171,8 @@
           <span class="error" id="errBeneficios"></span>
         </div>
       </div>
-    </div>
-    <p class="sub" style="margin:18px auto 12px">¿Cómo vas a usar Oruga?</p>
-    <div class="opciones compactas" id="opAcceso"></div>
-    <span class="error" id="errAcceso"></span>
-    <div class="campos bloque">
+      <div class="campo" id="formacionWrap" style="margin-top:14px"><label for="formacion">Formación / profesión</label><select id="formacion" onchange="cambioFormacion()"></select><span class="error"></span></div>
+      <div class="campo oculto" id="formacionOtraWrap"><label for="formacionOtra">¿Cuál?</label><input id="formacionOtra" placeholder="Ej: Arquitectura"><span class="error"></span></div>
       <div class="campo"><label for="actividad">Actividad o empresa</label><input id="actividad" placeholder="Ej: Venta de carteras, Estudio jurídico Pérez…"><span class="error"></span></div>
     </div>
     <div class="actions"><button class="btn btn-ghost" onclick="atras()">Atrás</button><button class="btn btn-primary" onclick="siguiente()">Siguiente &#8594;</button></div>
@@ -277,6 +275,7 @@ var SHEETS_URL = "https://script.google.com/macros/s/AKfycbx648Vq8u_a5-3ZnIJVyWT
 
 var FORMACIONES = ["Abogado/a","Contador/a","Administración / Economía","Ingeniería / Sistemas","Arquitectura / Diseño","Comunicación / Marketing","Salud","Educación","Comercio / Emprendimiento","Estudiante","Otra"];
 var ACCESO = [
+  {v:"Abogado/a matriculado/a", e:"⚖️"},
   {v:"Profesional independiente", e:"💼"},
   {v:"Grupo o empresa", e:"🏢"},
   {v:"Empleado/a remoto", e:"🧑‍💻"},
@@ -304,7 +303,7 @@ function $(id){ return document.getElementById(id); }
 function val(id){ return $(id).value.replace(/\s+/g,' ').trim(); }
 function soloNum(s){ return (s||'').replace(/\D/g,''); }
 function capitalizar(s){ return s.toLowerCase().replace(/(^|[\s'-])([a-záéíóúñü])/g,function(m,a,b){return a+b.toUpperCase();}); }
-function esAbogado(){ return val('formacion')==="Abogado/a"; }
+function esAbogado(){ return datos.acceso==="Abogado/a matriculado/a" || val('formacion')==="Abogado/a"; }
 
 // ---- construir UI ----
 (function(){
@@ -312,7 +311,11 @@ function esAbogado(){ return val('formacion')==="Abogado/a"; }
   var sel=$('provincia'); sel.innerHTML='<option value="">Elegí…</option>'+PROVINCIAS.map(function(x){return '<option>'+x+'</option>';}).join('');
   sel.value="Corrientes";
   $('formacion').innerHTML='<option value="">Elegí…</option>'+FORMACIONES.map(function(x){return '<option>'+x+'</option>';}).join('');
-  armarOpciones('opAcceso',ACCESO,'acceso');
+  armarOpciones('opAcceso',ACCESO,'acceso',function(v){
+    if(v==="Abogado/a matriculado/a"){ $('formacion').value="Abogado/a"; }
+    else if(val('formacion')==="Abogado/a"){ $('formacion').value=""; }
+    cambioFormacion();
+  });
   armarOpciones('opComprobante',COMPROBANTES,'comprobante',function(v){
     $('datosFactA').classList.toggle('oculto', v!=="Factura A");
     $('hintB').classList.toggle('oculto', v!=="Factura B");
@@ -329,6 +332,7 @@ function esAbogado(){ return val('formacion')==="Abogado/a"; }
 function cambioFormacion(){
   var ab=esAbogado();
   $('cajaAbogado').classList.toggle('oculto', !ab);
+  $('formacionWrap').classList.toggle('oculto', datos.acceso==="Abogado/a matriculado/a");
   $('formacionOtraWrap').classList.toggle('oculto', val('formacion')!=="Otra");
   $('fotoMatricula').classList.toggle('oculto', !ab);
   $('fotosGrid').classList.toggle('tres', ab);
@@ -387,6 +391,7 @@ function validar(n){
     ok = marcar('ciudad', val('ciudad').length<2?'Escribí tu ciudad':'') & ok;
   }
   if(n===1){
+    if(!datos.acceso){ $('errAcceso').textContent='Elegí una opción'; ok=false; }
     ok = marcar('formacion', val('formacion')?'':'Elegí tu formación') & ok;
     if(val('formacion')==="Otra") ok = marcar('formacionOtra', val('formacionOtra').length<2?'Contanos cuál':'') & ok;
     if(esAbogado()){
@@ -395,7 +400,6 @@ function validar(n){
       ok = marcar('cuil', !cuitValido(cu)?'El CUIL no es válido (11 números)':(cu.slice(2,10).replace(/^0+/,'')!==soloNum(val('dni')).replace(/^0+/,'')?'El CUIL no coincide con tu DNI':'')) & ok;
       if(!beneficiosElegidos().length){ $('errBeneficios').textContent='Elegí al menos un beneficio'; ok=false; }
     }
-    if(!datos.acceso){ $('errAcceso').textContent='Elegí una opción'; ok=false; }
     ok = marcar('actividad', val('actividad').length<2?'Contanos brevemente a qué te dedicás':'') & ok;
   }
   if(n===2){
