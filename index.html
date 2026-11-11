@@ -105,6 +105,17 @@
   .modal-box li span{flex-shrink:0;}
   .modal-box .actions{margin-top:22px;}
   .oculto{display:none;}
+
+  .beneficios{display:flex;flex-direction:column;gap:8px;margin-top:4px;}
+  .campo .beneficio{display:flex;gap:12px;margin:0;align-items:flex-start;padding:13px 15px;border:1px solid rgba(255,255,255,.22);border-radius:12px;background:rgba(255,255,255,.06);cursor:pointer;font-size:14.5px;line-height:1.45;color:var(--cream);}
+  .campo .beneficio input{width:19px;height:19px;padding:0;border:none;background:none;border-radius:4px;appearance:auto;-webkit-appearance:checkbox;accent-color:var(--verde);margin-top:1px;flex:none;}
+  .beneficio:has(input:checked){border-color:var(--verde);background:rgba(202,232,127,.14);}
+  .caja-abogado{border:1px solid rgba(202,232,127,.45);background:rgba(202,232,127,.07);border-radius:16px;padding:16px 16px 6px;margin-top:6px;}
+  .caja-abogado .titulo{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--verde);font-weight:600;margin-bottom:12px;}
+  #opComprobante{grid-template-columns:repeat(3,1fr);}
+  .fotos.tres{grid-template-columns:1fr 1fr 1fr;}
+  @media(max-width:520px){.fotos.tres{grid-template-columns:1fr;}}
+  .nota{color:var(--cream-dim);font-size:13.5px;line-height:1.5;max-width:520px;margin:10px auto 0;}
 </style>
 </head>
 <body>
@@ -112,7 +123,7 @@
   <img class="logo" src="data:image/png;base64,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" alt="Oruga Coworking">
   <div class="progress" id="progress"></div>
 
-  <!-- PASO 0: Datos personales + ubicacion -->
+  <!-- PASO 1: Datos personales -->
   <section class="step on" data-step="0">
     <div class="eyebrow">Alta de cliente <span class="dot"></span> Paso 1 de 4</div>
     <h1>¡Hola! Contanos <span class="accent">quién sos</span></h1>
@@ -135,57 +146,78 @@
     <div class="actions"><button class="btn btn-primary" onclick="siguiente()">Siguiente &#8594;</button></div>
   </section>
 
-  <!-- PASO 1: Actividad + facturacion -->
+  <!-- PASO 2: Formacion + actividad (+ bloque abogados) -->
   <section class="step" data-step="1">
     <div class="eyebrow">Alta de cliente <span class="dot"></span> Paso 2 de 4</div>
-    <h1>¿Cómo vas a usar <span class="accent">Oruga</span>?</h1>
-    <p class="sub">Elegí la opción que mejor te describe.</p>
+    <h1>¿A qué te <span class="accent">dedicás</span>?</h1>
+    <p class="sub">Contanos tu formación y cómo vas a usar el espacio.</p>
+    <div class="campos">
+      <div class="campo"><label for="formacion">Formación / profesión</label><select id="formacion" onchange="cambioFormacion()"></select><span class="error"></span></div>
+      <div class="campo oculto" id="formacionOtraWrap"><label for="formacionOtra">¿Cuál?</label><input id="formacionOtra" placeholder="Ej: Arquitectura"><span class="error"></span></div>
+
+      <div class="caja-abogado oculto" id="cajaAbogado">
+        <div class="titulo">⚖️ Matriculados del Colegio Público de Abogados</div>
+        <div class="fila">
+          <div class="campo"><label for="matricula">N° de matrícula</label><input id="matricula" placeholder="Ej: T° 12 F° 345"><span class="error"></span></div>
+          <div class="campo"><label for="cuil">CUIL</label><input id="cuil" inputmode="numeric" placeholder="11 números, sin guiones"><span class="error"></span></div>
+        </div>
+        <div class="campo"><label>¿Qué beneficios del Colegio querés usar? <span class="opt">(podés elegir varios)</span></label>
+          <div class="beneficios" id="beneficios">
+            <label class="beneficio"><input type="checkbox" value="Hora gratuita en salas de hasta 4 personas">Hora gratuita en salas de hasta 4 personas</label>
+            <label class="beneficio"><input type="checkbox" value="20% bonificado en membresías de salas privadas">20% bonificado en membresías de salas privadas</label>
+            <label class="beneficio"><input type="checkbox" value="15% bonificado en membresías de escritorios compartidos">15% bonificado en membresías para salas de escritorios compartidos (espacios flexibles)</label>
+          </div>
+          <span class="error" id="errBeneficios"></span>
+        </div>
+      </div>
+    </div>
+    <p class="sub" style="margin:18px auto 12px">¿Cómo vas a usar Oruga?</p>
     <div class="opciones compactas" id="opAcceso"></div>
     <span class="error" id="errAcceso"></span>
     <div class="campos bloque">
-      <div class="campo"><label for="actividad">¿A qué te dedicás? / Nombre de la empresa</label><input id="actividad" placeholder="Ej: Venta de carteras, Estudio contable Pérez…"><span class="error"></span></div>
-      <div class="campo"><label>¿Necesitás factura a un CUIT?</label></div>
+      <div class="campo"><label for="actividad">Actividad o empresa</label><input id="actividad" placeholder="Ej: Venta de carteras, Estudio jurídico Pérez…"><span class="error"></span></div>
     </div>
-    <div class="opciones dos" id="opFactura"></div>
-    <span class="error" id="errFactura"></span>
-    <p class="hint oculto" id="hintCF">Te facturamos como consumidor final con los datos de tu DNI. 👍</p>
-    <div class="campos bloque oculto" id="datosFact">
-      <div class="campo"><label for="iva">Condición frente al IVA</label><select id="iva">
-        <option value="">Elegí…</option><option>Monotributista</option><option>Responsable inscripto</option><option>Exento</option></select><span class="error"></span></div>
+    <div class="actions"><button class="btn btn-ghost" onclick="atras()">Atrás</button><button class="btn btn-primary" onclick="siguiente()">Siguiente &#8594;</button></div>
+  </section>
+
+  <!-- PASO 3: Comprobante + documentacion -->
+  <section class="step" data-step="2">
+    <div class="eyebrow">Alta de cliente <span class="dot"></span> Paso 3 de 4</div>
+    <h1>Comprobante y <span class="accent">documentación</span></h1>
+    <p class="sub">¿Qué tipo de comprobante necesitás?</p>
+    <div class="opciones compactas" id="opComprobante"></div>
+    <span class="error" id="errComprobante"></span>
+    <p class="hint oculto" id="hintB">Te hacemos Factura B con los datos de tu DNI. 👍</p>
+    <p class="hint oculto" id="hintRecibo">Te entregamos un recibo por cada pago. 👍</p>
+    <div class="campos bloque oculto" id="datosFactA">
       <div class="fila">
-        <div class="campo"><label for="razon">Razón social / Nombre</label><input id="razon" placeholder="Ej: Distribuidora Muller SRL"><span class="error"></span></div>
+        <div class="campo"><label for="razon">Razón social</label><input id="razon" placeholder="Ej: Distribuidora Muller SRL"><span class="error"></span></div>
         <div class="campo"><label for="cuit">CUIT</label><input id="cuit" inputmode="numeric" placeholder="11 números"><span class="error"></span></div>
       </div>
     </div>
-    <div class="actions"><button class="btn btn-ghost" onclick="atras()">Atrás</button><button class="btn btn-primary" onclick="siguiente()">Siguiente &#8594;</button></div>
-  </section>
-
-  <!-- PASO 2: DNI + emergencia -->
-  <section class="step" data-step="2">
-    <div class="eyebrow">Alta de cliente <span class="dot"></span> Paso 3 de 4</div>
-    <h1>Tu <span class="accent">DNI</span> y un contacto de emergencia</h1>
-    <p class="sub">Sacale una foto al frente y otra al dorso (desde el celular se abre la cámara).</p>
-    <div class="fotos">
-      <label class="foto" id="fotoFrente"><span class="emoji">🪪</span>Frente<input type="file" accept="image/*" capture="environment" onchange="cargarFoto(this,'frente')"></label>
-      <label class="foto" id="fotoDorso"><span class="emoji">🔄</span>Dorso<input type="file" accept="image/*" capture="environment" onchange="cargarFoto(this,'dorso')"></label>
+    <p class="sub" style="margin:24px auto 14px">Sacale una foto a tu DNI (frente y dorso)<span id="txtMatricula" class="oculto"> y a tu credencial de matrícula</span>. Desde el celular se abre la cámara.</p>
+    <div class="fotos" id="fotosGrid">
+      <label class="foto" id="fotoFrente"><span class="emoji">🪪</span>DNI frente<input type="file" accept="image/*" capture="environment" onchange="cargarFoto(this,'frente')"></label>
+      <label class="foto" id="fotoDorso"><span class="emoji">🔄</span>DNI dorso<input type="file" accept="image/*" capture="environment" onchange="cargarFoto(this,'dorso')"></label>
+      <label class="foto oculto" id="fotoMatricula"><span class="emoji">⚖️</span>Matrícula<input type="file" accept="image/*" capture="environment" onchange="cargarFoto(this,'matricula')"></label>
     </div>
     <span class="error" id="errFotos"></span>
-    <div class="campos bloque">
-      <p class="hint" style="text-align:left;margin-bottom:12px">¿A quién llamamos si te pasa algo mientras estás en el espacio?</p>
-      <div class="fila">
-        <div class="campo"><label for="emNombre">Nombre</label><input id="emNombre" placeholder="Ej: María Gómez"><span class="error"></span></div>
-        <div class="campo"><label for="emVinculo">Vínculo</label><input id="emVinculo" placeholder="Ej: Madre, pareja…"><span class="error"></span></div>
-      </div>
-      <div class="campo"><label for="emTel">Teléfono</label><input id="emTel" type="tel" inputmode="tel" placeholder="Ej: 3794 654321"><span class="error"></span></div>
-    </div>
     <div class="actions"><button class="btn btn-ghost" onclick="atras()">Atrás</button><button class="btn btn-primary" onclick="siguiente()">Siguiente &#8594;</button></div>
   </section>
 
-  <!-- PASO 3: Medio + acuerdo -->
+  <!-- PASO 4: Contacto alternativo + medio + acuerdo -->
   <section class="step" data-step="3">
     <div class="eyebrow">Alta de cliente <span class="dot"></span> Paso 4 de 4</div>
-    <h1>¿Cómo nos <span class="accent">conociste</span>?</h1>
-    <p class="sub">Elegí una opción.</p>
+    <h1>Último <span class="accent">paso</span></h1>
+    <p class="sub">Un número de referencia o alternativo, por si no logramos ubicarte en tu celular.</p>
+    <div class="campos">
+      <div class="fila">
+        <div class="campo"><label for="refNombre">Nombre de la persona</label><input id="refNombre" placeholder="Ej: María Gómez"><span class="error"></span></div>
+        <div class="campo"><label for="refVinculo">Vínculo</label><input id="refVinculo" placeholder="Ej: Familiar, socio, oficina…"><span class="error"></span></div>
+      </div>
+      <div class="campo"><label for="refTel">Teléfono de referencia</label><input id="refTel" type="tel" inputmode="tel" placeholder="Ej: 3794 654321"><span class="error"></span></div>
+    </div>
+    <p class="sub" style="margin:22px auto 12px">¿Cómo nos conociste?</p>
     <div class="opciones compactas" id="opMedio"></div>
     <span class="error" id="errMedio"></span>
     <div class="campos bloque oculto" id="medioDetalleWrap">
@@ -197,7 +229,7 @@
     <div class="actions"><button class="btn btn-ghost" onclick="atras()">Atrás</button><button class="btn btn-primary" onclick="siguiente()">Revisar &#8594;</button></div>
   </section>
 
-  <!-- PASO 7: Resumen -->
+  <!-- Resumen -->
   <section class="step" data-step="4">
     <div class="eyebrow">Alta de cliente <span class="dot"></span> Confirmación</div>
     <h1>¿Está todo <span class="accent">bien</span>?</h1>
@@ -207,11 +239,12 @@
     <div class="actions"><button class="btn btn-ghost" onclick="atras()">Corregir</button><button class="btn btn-primary" id="btnEnviar" onclick="enviar()">Enviar mi registro &#8594;</button></div>
   </section>
 
-  <!-- PASO 8: Gracias -->
+  <!-- Gracias -->
   <section class="step" data-step="5">
     <div class="checkwrap"><svg viewBox="0 0 100 100"><circle class="ring" cx="50" cy="50" r="45"/><path class="tick" d="M30 52 L45 66 L72 36"/></svg></div>
     <h1>¡Bienvenid@ a <span class="accent">Oruga</span>!</h1>
     <p class="sub">Ya quedaste registrad@. Te esperamos en el espacio. 🐛</p>
+    <p class="nota oculto" id="notaAbogado">⚖️ Cuando reserves, enviá por WhatsApp al <b>379 489-9843</b> el nombre, apellido y DNI de tus acompañantes (clientes o quienes esperás recibir).</p>
     <p class="state-msg" id="stateMsg"></p>
   </section>
 </div>
@@ -239,11 +272,10 @@
 
 <script>
 // ====== CONFIGURACION ======
-// 1) Pegá acá la URL /exec del Apps Script (ver README).
 var SHEETS_URL = "https://script.google.com/macros/s/AKfycbx648Vq8u_a5-3ZnIJVyWT89NRw1GxRUykV3MgB3CFkUqvIDE-RfDvMZmAGDraoZ5i-Wg/exec";
-// 2) El acuerdo de convivencia está más abajo, en <div id="modalAcuerdo">.
 // ===========================
 
+var FORMACIONES = ["Abogado/a","Contador/a","Administración / Economía","Ingeniería / Sistemas","Arquitectura / Diseño","Comunicación / Marketing","Salud","Educación","Comercio / Emprendimiento","Estudiante","Otra"];
 var ACCESO = [
   {v:"Profesional independiente", e:"💼"},
   {v:"Grupo o empresa", e:"🏢"},
@@ -252,9 +284,10 @@ var ACCESO = [
   {v:"Estudiante", e:"🎓"},
   {v:"Evento o uso puntual", e:"📅"}
 ];
-var FACTURA = [
-  {v:"No", t:"No, consumidor final", e:"🧾"},
-  {v:"Sí", t:"Sí, a mi CUIT", e:"📄"}
+var COMPROBANTES = [
+  {v:"Factura A", e:"🏛️"},
+  {v:"Factura B", e:"🧾"},
+  {v:"Recibo", e:"📄"}
 ];
 var MEDIOS = [
   {v:"Instagram", e:"📸"},{v:"Facebook", e:"👍"},{v:"Google / Google Maps", e:"🔎"},
@@ -264,29 +297,44 @@ var MEDIOS = [
 ];
 var PROVINCIAS = ["Corrientes","Chaco","Misiones","Formosa","Entre Ríos","Santa Fe","Buenos Aires","CABA","Córdoba","Catamarca","Chubut","Jujuy","La Pampa","La Rioja","Mendoza","Neuquén","Río Negro","Salta","San Juan","San Luis","Santa Cruz","Santiago del Estero","Tierra del Fuego","Tucumán","Fuera de Argentina"];
 
-var datos = {acceso:"", factura:"", medio:"", fotos:{frente:null, dorso:null}};
+var datos = {acceso:"", comprobante:"", medio:"", fotos:{frente:null, dorso:null, matricula:null}};
 var paso = 0, TOTAL = 4, RESUMEN = 4, GRACIAS = 5;
 
 function $(id){ return document.getElementById(id); }
 function val(id){ return $(id).value.replace(/\s+/g,' ').trim(); }
 function soloNum(s){ return (s||'').replace(/\D/g,''); }
 function capitalizar(s){ return s.toLowerCase().replace(/(^|[\s'-])([a-záéíóúñü])/g,function(m,a,b){return a+b.toUpperCase();}); }
+function esAbogado(){ return val('formacion')==="Abogado/a"; }
 
 // ---- construir UI ----
 (function(){
   var p=$('progress'); for(var i=0;i<TOTAL;i++){ p.appendChild(document.createElement('span')); }
   var sel=$('provincia'); sel.innerHTML='<option value="">Elegí…</option>'+PROVINCIAS.map(function(x){return '<option>'+x+'</option>';}).join('');
   sel.value="Corrientes";
+  $('formacion').innerHTML='<option value="">Elegí…</option>'+FORMACIONES.map(function(x){return '<option>'+x+'</option>';}).join('');
   armarOpciones('opAcceso',ACCESO,'acceso');
-  armarOpciones('opFactura',FACTURA,'factura',function(v){
-    $('datosFact').classList.toggle('oculto', v!=="Sí"); $('hintCF').classList.toggle('oculto', v!=="No");
+  armarOpciones('opComprobante',COMPROBANTES,'comprobante',function(v){
+    $('datosFactA').classList.toggle('oculto', v!=="Factura A");
+    $('hintB').classList.toggle('oculto', v!=="Factura B");
+    $('hintRecibo').classList.toggle('oculto', v!=="Recibo");
   });
   armarOpciones('opMedio',MEDIOS,'medio',function(v,op){
     $('medioDetalleWrap').classList.toggle('oculto', !op.det);
     if(op.det){ $('medioDetalleLbl').textContent=op.det; }
   });
   $('linkAcuerdo').addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); abrirAcuerdo(); });
+  document.querySelectorAll('#beneficios input').forEach(function(c){ c.addEventListener('change',function(){ $('errBeneficios').textContent=''; }); });
 })();
+
+function cambioFormacion(){
+  var ab=esAbogado();
+  $('cajaAbogado').classList.toggle('oculto', !ab);
+  $('formacionOtraWrap').classList.toggle('oculto', val('formacion')!=="Otra");
+  $('fotoMatricula').classList.toggle('oculto', !ab);
+  $('fotosGrid').classList.toggle('tres', ab);
+  $('txtMatricula').classList.toggle('oculto', !ab);
+  marcar('formacion','');
+}
 
 function armarOpciones(contId, lista, clave, alElegir){
   var cont=$(contId);
@@ -326,6 +374,7 @@ function cuitValido(c){
   var dv=11-(s%11); if(dv===11) dv=0; if(dv===10) dv=9;
   return dv===+c[10];
 }
+function beneficiosElegidos(){ return [].slice.call(document.querySelectorAll('#beneficios input:checked')).map(function(c){return c.value;}); }
 function validar(n){
   var ok=true;
   if(n===0){
@@ -338,25 +387,33 @@ function validar(n){
     ok = marcar('ciudad', val('ciudad').length<2?'Escribí tu ciudad':'') & ok;
   }
   if(n===1){
+    ok = marcar('formacion', val('formacion')?'':'Elegí tu formación') & ok;
+    if(val('formacion')==="Otra") ok = marcar('formacionOtra', val('formacionOtra').length<2?'Contanos cuál':'') & ok;
+    if(esAbogado()){
+      ok = marcar('matricula', val('matricula').length<2?'Escribí tu matrícula':'') & ok;
+      var cu=soloNum(val('cuil'));
+      ok = marcar('cuil', !cuitValido(cu)?'El CUIL no es válido (11 números)':(cu.slice(2,10).replace(/^0+/,'')!==soloNum(val('dni')).replace(/^0+/,'')?'El CUIL no coincide con tu DNI':'')) & ok;
+      if(!beneficiosElegidos().length){ $('errBeneficios').textContent='Elegí al menos un beneficio'; ok=false; }
+    }
     if(!datos.acceso){ $('errAcceso').textContent='Elegí una opción'; ok=false; }
     ok = marcar('actividad', val('actividad').length<2?'Contanos brevemente a qué te dedicás':'') & ok;
-    if(!datos.factura){ $('errFactura').textContent='Elegí Sí o No'; ok=false; }
-    else if(datos.factura==="Sí"){
-      ok = marcar('iva', val('iva')?'':'Elegí tu condición') & ok;
+  }
+  if(n===2){
+    if(!datos.comprobante){ $('errComprobante').textContent='Elegí un tipo de comprobante'; ok=false; }
+    else if(datos.comprobante==="Factura A"){
       ok = marcar('razon', val('razon').length<2?'¿A nombre de quién facturamos?':'') & ok;
       ok = marcar('cuit', cuitValido(soloNum(val('cuit')))?'':'El CUIT no es válido (11 números)') & ok;
     }
-  }
-  if(n===2){
-    var falta=[]; if(!datos.fotos.frente) falta.push('frente'); if(!datos.fotos.dorso) falta.push('dorso');
-    $('errFotos').textContent = falta.length?('Falta la foto del '+falta.join(' y del ')):'';
+    var falta=[]; if(!datos.fotos.frente) falta.push('DNI frente'); if(!datos.fotos.dorso) falta.push('DNI dorso');
+    if(esAbogado() && !datos.fotos.matricula) falta.push('matrícula');
+    $('errFotos').textContent = falta.length?('Falta la foto de: '+falta.join(', ')):'';
     if(falta.length) ok=false;
-    ok = marcar('emNombre', val('emNombre').length<2?'Escribí un nombre':'') & ok;
-    ok = marcar('emVinculo', val('emVinculo').length<2?'¿Qué relación tiene con vos?':'') & ok;
-    var t=soloNum(val('emTel')), propio=soloNum(val('celular'));
-    ok = marcar('emTel', (t.length<10||t.length>13)?'Incluí el código de área':(t===propio?'Tiene que ser un número distinto al tuyo':'')) & ok;
   }
   if(n===3){
+    ok = marcar('refNombre', val('refNombre').length<2?'Escribí un nombre':'') & ok;
+    ok = marcar('refVinculo', val('refVinculo').length<2?'¿Qué relación tiene con vos?':'') & ok;
+    var t=soloNum(val('refTel')), propio=soloNum(val('celular'));
+    ok = marcar('refTel', (t.length<10||t.length>13)?'Incluí el código de área':(t===propio?'Tiene que ser un número distinto al tuyo':'')) & ok;
     if(!datos.medio){ $('errMedio').textContent='Elegí una opción'; ok=false; }
     if(!$('acuerdo').checked){ $('errAcuerdo').textContent='Para registrarte tenés que aceptar el acuerdo'; ok=false; }
     else { $('errAcuerdo').textContent=''; }
@@ -366,6 +423,8 @@ function validar(n){
 }
 
 // ---- fotos: se comprimen en el navegador antes de enviar ----
+var CAJAS={frente:'fotoFrente', dorso:'fotoDorso', matricula:'fotoMatricula'};
+var ETIQ={frente:'DNI frente', dorso:'DNI dorso', matricula:'Matrícula'};
 function cargarFoto(input, lado){
   var f=input.files && input.files[0]; if(!f) return;
   var lector=new FileReader();
@@ -377,10 +436,10 @@ function cargarFoto(input, lado){
       cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);
       var dataUrl=cv.toDataURL('image/jpeg',0.82);
       datos.fotos[lado]=dataUrl;
-      var box=$(lado==='frente'?'fotoFrente':'fotoDorso');
+      var box=$(CAJAS[lado]);
       box.classList.add('ok');
       var prev=box.querySelector('img')||document.createElement('img'); prev.src=dataUrl; box.appendChild(prev);
-      if(!box.querySelector('.tag')){ var t=document.createElement('span'); t.className='tag'; t.textContent='✓ '+(lado==='frente'?'Frente':'Dorso'); box.appendChild(t); }
+      if(!box.querySelector('.tag')){ var t=document.createElement('span'); t.className='tag'; t.textContent='✓ '+ETIQ[lado]; box.appendChild(t); }
       $('errFotos').textContent='';
     };
     img.src=e.target.result;
@@ -390,14 +449,17 @@ function cargarFoto(input, lado){
 
 // ---- resumen y envio ----
 function registro(){
-  var esCF = datos.factura!=="Sí";
+  var ab=esAbogado(), esA=datos.comprobante==="Factura A";
   return {
     nombre: capitalizar(val('nombre')), apellido: capitalizar(val('apellido')),
     dni: soloNum(val('dni')), email: val('email').toLowerCase(), celular: soloNum(val('celular')),
     provincia: val('provincia'), ciudad: capitalizar(val('ciudad')),
+    formacion: val('formacion')==="Otra" ? val('formacionOtra') : val('formacion'),
+    matricula: ab ? val('matricula') : '', cuil: ab ? soloNum(val('cuil')) : '',
+    beneficios: ab ? beneficiosElegidos().join('; ') : '',
     acceso: datos.acceso, actividad: val('actividad'),
-    iva: esCF ? 'Consumidor final' : val('iva'), razonSocial: esCF ? '' : val('razon'), cuit: esCF ? '' : soloNum(val('cuit')),
-    emergenciaNombre: capitalizar(val('emNombre')), emergenciaVinculo: val('emVinculo'), emergenciaTel: soloNum(val('emTel')),
+    comprobante: datos.comprobante, razonSocial: esA ? val('razon') : '', cuit: esA ? soloNum(val('cuit')) : '',
+    refNombre: capitalizar(val('refNombre')), refVinculo: val('refVinculo'), refTel: soloNum(val('refTel')),
     medio: datos.medio, medioDetalle: $('medioDetalleWrap').classList.contains('oculto') ? '' : val('medioDetalle'),
     acuerdo: $('acuerdo').checked ? 'Sí' : 'No'
   };
@@ -406,11 +468,14 @@ function armarResumen(){
   var r=registro();
   var filas=[
     ['Nombre', r.nombre+' '+r.apellido],['DNI', r.dni],['Correo', r.email],['Celular', r.celular],
-    ['Ubicación', r.ciudad+', '+r.provincia],['Acceso', r.acceso],['Actividad', r.actividad],
-    ['Facturación', r.iva + (r.cuit?' · CUIT '+r.cuit:'')],
-    ['Emergencia', r.emergenciaNombre+' ('+r.emergenciaVinculo+') '+r.emergenciaTel],
-    ['Nos conociste por', r.medio + (r.medioDetalle?' · '+r.medioDetalle:'')],['Fotos DNI','Frente y dorso ✓']
+    ['Ubicación', r.ciudad+', '+r.provincia],['Formación', r.formacion]
   ];
+  if(r.matricula){ filas.push(['Matrícula', r.matricula],['CUIL', r.cuil],['Beneficios', r.beneficios]); }
+  filas.push(['Acceso', r.acceso],['Actividad', r.actividad],
+    ['Comprobante', r.comprobante + (r.cuit?' · '+r.razonSocial+' · CUIT '+r.cuit:'')],
+    ['Contacto alternativo', r.refNombre+' ('+r.refVinculo+') '+r.refTel],
+    ['Nos conociste por', r.medio + (r.medioDetalle?' · '+r.medioDetalle:'')],
+    ['Fotos', r.matricula ? 'DNI y matrícula ✓' : 'DNI frente y dorso ✓']);
   $('resumen').innerHTML = filas.map(function(f){
     return '<div><dt>'+f[0]+'</dt><dd>'+String(f[1]).replace(/</g,'&lt;')+'</dd></div>';
   }).join('');
@@ -420,10 +485,14 @@ function enviar(){
   if(!SHEETS_URL || SHEETS_URL.indexOf('PEGAR')===0){ msg.textContent='Falta configurar la conexión con la planilla.'; return; }
   btn.disabled=true; btn.textContent='Enviando…'; msg.textContent='Subiendo tus datos y fotos, no cierres esta página.';
   var cuerpo=registro(); cuerpo.fotoFrente=datos.fotos.frente; cuerpo.fotoDorso=datos.fotos.dorso;
+  cuerpo.fotoMatricula = esAbogado() ? datos.fotos.matricula : null;
   fetch(SHEETS_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(cuerpo)})
     .then(function(r){ return r.json(); })
     .then(function(res){
-      if(res && res.ok){ paso=GRACIAS; mostrar(GRACIAS); document.querySelectorAll('#progress span').forEach(function(s){s.classList.add('done');}); }
+      if(res && res.ok){
+        $('notaAbogado').classList.toggle('oculto', !esAbogado());
+        paso=GRACIAS; mostrar(GRACIAS); document.querySelectorAll('#progress span').forEach(function(s){s.classList.add('done');});
+      }
       else { throw new Error(res && res.error || 'Error'); }
     })
     .catch(function(e){
