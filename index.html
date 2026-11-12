@@ -108,11 +108,15 @@
 
   .beneficios{display:flex;flex-direction:column;gap:8px;margin-top:4px;}
   .campo .beneficio{display:flex;gap:12px;margin:0;align-items:flex-start;padding:13px 15px;border:1px solid rgba(255,255,255,.22);border-radius:12px;background:rgba(255,255,255,.06);cursor:pointer;font-size:14.5px;line-height:1.45;color:var(--cream);}
-  .campo .beneficio input{width:19px;height:19px;padding:0;border:none;background:none;border-radius:4px;appearance:auto;-webkit-appearance:checkbox;accent-color:var(--verde);margin-top:1px;flex:none;}
+  .campo .beneficio input{width:19px;height:19px;padding:0;border:none;background:none;border-radius:4px;appearance:auto;-webkit-appearance:auto;accent-color:var(--verde);margin-top:1px;flex:none;}
   .beneficio:has(input:checked){border-color:var(--verde);background:rgba(202,232,127,.14);}
   .caja-abogado{border:1px solid rgba(202,232,127,.45);background:rgba(202,232,127,.07);border-radius:16px;padding:16px 16px 6px;margin-top:6px;margin-bottom:14px;}
   .caja-abogado .titulo{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--verde);font-weight:600;margin-bottom:12px;}
   #opComprobante{grid-template-columns:repeat(3,1fr);}
+  .subtitulo{font-family:'Noto Serif',serif;font-weight:600;font-size:clamp(20px,3.4vw,26px);line-height:1.2;margin:30px 0 8px;}
+  .subtitulo .accent{color:var(--verde);font-style:italic;}
+  .fotos.cuatro{grid-template-columns:1fr 1fr;}
+  .foto .pdf{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:42px;background:#2b5068;}
   .fotos.tres{grid-template-columns:1fr 1fr 1fr;}
   @media(max-width:520px){.fotos.tres{grid-template-columns:1fr;}}
   .nota{color:var(--cream-dim);font-size:13.5px;line-height:1.5;max-width:520px;margin:10px auto 0;}
@@ -150,11 +154,11 @@
   <section class="step" data-step="1">
     <div class="eyebrow">Alta de cliente <span class="dot"></span> Paso 2 de 4</div>
     <h1>¿A qué te <span class="accent">dedicás</span>?</h1>
-    <p class="sub">Elegí tu profesión o área de trabajo.</p>
+    <p class="sub">Seleccioná tu profesión o principal actividad.</p>
     <div class="opciones compactas" id="opProfesion"></div>
     <span class="error" id="errProfesion"></span>
     <div class="campos bloque">
-      <div class="campo oculto" id="formacionOtraWrap"><label for="formacionOtra">¿Cuál es tu profesión?</label><input id="formacionOtra" placeholder="Ej: Nutricionista, fotógrafa…"><span class="error"></span></div>
+      <div class="campo oculto" id="formacionOtraWrap"><label for="formacionOtra">¿Cuál es tu actividad?</label><input id="formacionOtra" placeholder="Ej: Nutricionista, fotógrafa…"><span class="error"></span></div>
 
       <div class="caja-abogado oculto" id="cajaAbogado">
         <div class="titulo">⚖️ Matriculados del Colegio Público de Abogados</div>
@@ -171,10 +175,28 @@
           <span class="error" id="errBeneficios"></span>
         </div>
       </div>
+
+      <div class="caja-abogado oculto" id="cajaContador">
+        <div class="titulo">📊 Matriculados del Consejo de Ciencias Económicas</div>
+        <div class="campo"><label for="cuitContador">CUIT/CUIL para emitir comprobantes</label><input id="cuitContador" inputmode="numeric" placeholder="11 números, sin guiones"><span class="error"></span></div>
+        <div class="campo"><label>¿Qué beneficio del Consejo querés usar?</label>
+          <div class="beneficios" id="beneficiosContador">
+            <label class="beneficio"><input type="radio" name="benefContador" value="15% en el valor de lista de salas de reuniones privadas">Bonificación del 15%* en el valor de lista de salas de reuniones privadas</label>
+            <label class="beneficio"><input type="radio" name="benefContador" value="10% en el valor de lista de salas de espacios compartidos">Bonificación del 10%* en el valor de lista de salas de espacios compartidos</label>
+          </div>
+          <span class="error" id="errBenefContador"></span>
+        </div>
+        <p class="hint" style="text-align:left;margin:0 0 10px">En el paso siguiente te pedimos una foto de tu credencial profesional y del comprobante de libre deuda.</p>
+      </div>
     </div>
-    <p class="sub" style="margin:18px auto 12px">¿Cómo trabajás?</p>
+    <h2 class="subtitulo">¿Cómo desarrollás tu <span class="accent">actividad</span>?</h2>
+    <p class="sub" style="margin-bottom:14px">Elegí la opción que mejor te represente.</p>
     <div class="opciones compactas" id="opAcceso"></div>
     <span class="error" id="errAcceso"></span>
+    <h2 class="subtitulo">¿Qué uso querés darle a <span class="accent">Oruga</span>?</h2>
+    <p class="sub" style="margin-bottom:14px">Contanos qué estás buscando. Podés elegir más de una opción.</p>
+    <div class="opciones compactas" id="opUso"></div>
+    <span class="error" id="errUso"></span>
     <div class="campos bloque">
       <div class="campo"><label for="actividad">Nombre de tu empresa, estudio o emprendimiento <span class="opt">(opcional)</span></label><input id="actividad" placeholder="Ej: Estudio Pérez & Asoc., Carteras Aimará…"><span class="error"></span></div>
     </div>
@@ -196,11 +218,12 @@
         <div class="campo"><label for="cuit">CUIT</label><input id="cuit" inputmode="numeric" placeholder="11 números"><span class="error"></span></div>
       </div>
     </div>
-    <p class="sub" style="margin:24px auto 14px">Sacale una foto a tu DNI (frente y dorso)<span id="txtMatricula" class="oculto"> y a tu credencial de matrícula</span>. Desde el celular se abre la cámara.</p>
+    <p class="sub" style="margin:24px auto 14px">Sacale una foto a tu DNI (frente y dorso)<span id="txtMatricula" class="oculto"></span>. Desde el celular se abre la cámara.</p>
     <div class="fotos" id="fotosGrid">
       <label class="foto" id="fotoFrente"><span class="emoji">🪪</span>DNI frente<input type="file" accept="image/*" capture="environment" onchange="cargarFoto(this,'frente')"></label>
       <label class="foto" id="fotoDorso"><span class="emoji">🔄</span>DNI dorso<input type="file" accept="image/*" capture="environment" onchange="cargarFoto(this,'dorso')"></label>
-      <label class="foto oculto" id="fotoMatricula"><span class="emoji">⚖️</span>Matrícula<input type="file" accept="image/*" capture="environment" onchange="cargarFoto(this,'matricula')"></label>
+      <label class="foto oculto" id="fotoMatricula"><span class="emoji">⚖️</span><span id="lblCredencial">Matrícula</span><input type="file" accept="image/*" capture="environment" onchange="cargarFoto(this,'matricula')"></label>
+      <label class="foto oculto" id="fotoLibreDeuda"><span class="emoji">🧾</span>Libre deuda<small>(foto o PDF)</small><input type="file" accept="image/*,application/pdf" onchange="cargarFoto(this,'libredeuda')"></label>
     </div>
     <span class="error" id="errFotos"></span>
     <div class="actions"><button class="btn btn-ghost" onclick="atras()">Atrás</button><button class="btn btn-primary" onclick="siguiente()">Siguiente &#8594;</button></div>
@@ -277,18 +300,26 @@ var SHEETS_URL = "https://script.google.com/macros/s/AKfycbx648Vq8u_a5-3ZnIJVyWT
 // ===========================
 
 var PROFESIONES = [
-  {v:"Abogado/a", e:"⚖️"},{v:"Arquitecto/a", e:"📐"},{v:"Psicólogo/a", e:"🧠"},
-  {v:"Contador/a", e:"📊"},{v:"Sistemas / Programación", e:"💻"},{v:"Diseño / Comunicación", e:"🎨"},
-  {v:"Salud", e:"🩺"},{v:"Docente / Educación", e:"📚"},{v:"Comercio / Ventas", e:"🛍️"},
-  {v:"Administración / Empresa", e:"🏢"},{v:"Estudiante", e:"🎓"},{v:"Otra profesión", e:"✨"}
+  {v:"Abogado/a", e:"⚖️"},{v:"Arquitectura", e:"📐"},{v:"Psicología", e:"🧠"},
+  {v:"Contabilidad", e:"📊"},{v:"Sistemas / IT", e:"💻"},{v:"Diseño / Comunicación", e:"🎨"},
+  {v:"Salud", e:"🩺"},{v:"Educación", e:"📚"},{v:"Administración / Empresa", e:"🏢"},
+  {v:"Estudiante", e:"🎓"},{v:"Comercio / Ventas", e:"🛍️"},{v:"Otra actividad", e:"✨"}
 ];
 var ACCESO = [
-  {v:"Profesional independiente", t:"Independiente", e:"💼"},
-  {v:"Grupo o empresa", t:"Con mi empresa o equipo", e:"👥"},
-  {v:"Empleado/a remoto", e:"🧑‍💻"},
-  {v:"Fundación u ONG", e:"🤝"},
-  {v:"Estudio / capacitación", t:"Estudio o me capacito", e:"🎓"},
-  {v:"Evento o uso puntual", t:"Uso puntual (evento, reunión)", e:"📅"}
+  {v:"Trabajo independiente", e:"💼"},
+  {v:"Trabajo en equipo", e:"👥"},
+  {v:"Tengo una empresa o estudio", e:"🏢"},
+  {v:"Trabajo en relación de dependencia", e:"💻"},
+  {v:"Estudio o me capacito", e:"🎓"},
+  {v:"Trabajo en una ONG / Fundación", e:"🤝"}
+];
+var USOS = [
+  {v:"Espacio de trabajo", e:"🪑"},
+  {v:"Oficina privada", e:"🔒"},
+  {v:"Reuniones de equipo", e:"👥"},
+  {v:"Uso ocasional", e:"📅"},
+  {v:"Eventos / Capacitaciones", e:"🎤"},
+  {v:"Producciones / Fotos", e:"📸"}
 ];
 var COMPROBANTES = [
   {v:"Factura A", e:"🏛️"},
@@ -303,7 +334,7 @@ var MEDIOS = [
 ];
 var PROVINCIAS = ["Corrientes","Chaco","Misiones","Formosa","Entre Ríos","Santa Fe","Buenos Aires","CABA","Córdoba","Catamarca","Chubut","Jujuy","La Pampa","La Rioja","Mendoza","Neuquén","Río Negro","Salta","San Juan","San Luis","Santa Cruz","Santiago del Estero","Tierra del Fuego","Tucumán","Fuera de Argentina"];
 
-var datos = {profesion:"", acceso:"", comprobante:"", medio:"", fotos:{frente:null, dorso:null, matricula:null}};
+var datos = {profesion:"", acceso:"", usos:[], comprobante:"", medio:"", fotos:{frente:null, dorso:null, matricula:null, libredeuda:null}};
 var paso = 0, TOTAL = 4, RESUMEN = 4, GRACIAS = 5;
 
 function $(id){ return document.getElementById(id); }
@@ -311,6 +342,7 @@ function val(id){ return $(id).value.replace(/\s+/g,' ').trim(); }
 function soloNum(s){ return (s||'').replace(/\D/g,''); }
 function capitalizar(s){ return s.toLowerCase().replace(/(^|[\s'-])([a-záéíóúñü])/g,function(m,a,b){return a+b.toUpperCase();}); }
 function esAbogado(){ return datos.profesion==="Abogado/a"; }
+function esContador(){ return datos.profesion==="Contabilidad"; }
 
 // ---- construir UI ----
 (function(){
@@ -319,6 +351,8 @@ function esAbogado(){ return datos.profesion==="Abogado/a"; }
   sel.value="Corrientes";
   armarOpciones('opProfesion',PROFESIONES,'profesion',function(){ cambioFormacion(); });
   armarOpciones('opAcceso',ACCESO,'acceso');
+  armarMultiple('opUso',USOS,'usos');
+  document.querySelectorAll('#beneficiosContador input').forEach(function(c){ c.addEventListener('change',function(){ $('errBenefContador').textContent=''; }); });
   armarOpciones('opComprobante',COMPROBANTES,'comprobante',function(v){
     $('datosFactA').classList.toggle('oculto', v!=="Factura A");
     $('hintB').classList.toggle('oculto', v!=="Factura B");
@@ -333,12 +367,31 @@ function esAbogado(){ return datos.profesion==="Abogado/a"; }
 })();
 
 function cambioFormacion(){
-  var ab=esAbogado();
+  var ab=esAbogado(), co=esContador();
   $('cajaAbogado').classList.toggle('oculto', !ab);
-  $('formacionOtraWrap').classList.toggle('oculto', datos.profesion!=="Otra profesión");
-  $('fotoMatricula').classList.toggle('oculto', !ab);
+  $('cajaContador').classList.toggle('oculto', !co);
+  $('formacionOtraWrap').classList.toggle('oculto', datos.profesion!=="Otra actividad");
+  $('fotoMatricula').classList.toggle('oculto', !(ab||co));
+  $('fotoLibreDeuda').classList.toggle('oculto', !co);
+  $('lblCredencial').textContent = co ? 'Credencial profesional' : 'Matrícula';
   $('fotosGrid').classList.toggle('tres', ab);
-  $('txtMatricula').classList.toggle('oculto', !ab);
+  $('fotosGrid').classList.toggle('cuatro', co);
+  $('txtMatricula').classList.toggle('oculto', !(ab||co));
+  $('txtMatricula').textContent = ab ? ' y a tu credencial de matrícula' : (co ? ', tu credencial profesional y el comprobante de libre deuda' : '');
+}
+
+function armarMultiple(contId, lista, clave){
+  var cont=$(contId);
+  lista.forEach(function(op){
+    var b=document.createElement('button'); b.type='button'; b.className='opcion';
+    b.innerHTML='<span class="emoji">'+op.e+'</span>'+(op.t||op.v);
+    b.onclick=function(){
+      var i=datos[clave].indexOf(op.v);
+      if(i>=0){ datos[clave].splice(i,1); b.classList.remove('sel'); } else { datos[clave].push(op.v); b.classList.add('sel'); }
+      var err=cont.nextElementSibling; if(err) err.textContent='';
+    };
+    cont.appendChild(b);
+  });
 }
 
 function armarOpciones(contId, lista, clave, alElegir){
@@ -393,7 +446,11 @@ function validar(n){
   }
   if(n===1){
     if(!datos.profesion){ $('errProfesion').textContent='Elegí tu profesión o área'; ok=false; }
-    if(datos.profesion==="Otra profesión") ok = marcar('formacionOtra', val('formacionOtra').length<2?'Contanos cuál':'') & ok;
+    if(datos.profesion==="Otra actividad") ok = marcar('formacionOtra', val('formacionOtra').length<2?'Contanos cuál':'') & ok;
+    if(esContador()){
+      ok = marcar('cuitContador', cuitValido(soloNum(val('cuitContador')))?'':'El CUIT/CUIL no es válido (11 números)') & ok;
+      if(!document.querySelector('#beneficiosContador input:checked')){ $('errBenefContador').textContent='Elegí un beneficio'; ok=false; }
+    }
     if(esAbogado()){
       ok = marcar('matricula', val('matricula').length<2?'Escribí tu matrícula':'') & ok;
       var cu=soloNum(val('cuil'));
@@ -401,6 +458,7 @@ function validar(n){
       if(!beneficiosElegidos().length){ $('errBeneficios').textContent='Elegí al menos un beneficio'; ok=false; }
     }
     if(!datos.acceso){ $('errAcceso').textContent='Elegí una opción'; ok=false; }
+    if(!datos.usos.length){ $('errUso').textContent='Elegí al menos una opción'; ok=false; }
   }
   if(n===2){
     if(!datos.comprobante){ $('errComprobante').textContent='Elegí un tipo de comprobante'; ok=false; }
@@ -410,6 +468,8 @@ function validar(n){
     }
     var falta=[]; if(!datos.fotos.frente) falta.push('DNI frente'); if(!datos.fotos.dorso) falta.push('DNI dorso');
     if(esAbogado() && !datos.fotos.matricula) falta.push('matrícula');
+    if(esContador() && !datos.fotos.matricula) falta.push('credencial profesional');
+    if(esContador() && !datos.fotos.libredeuda) falta.push('libre deuda');
     $('errFotos').textContent = falta.length?('Falta la foto de: '+falta.join(', ')):'';
     if(falta.length) ok=false;
   }
@@ -427,11 +487,22 @@ function validar(n){
 }
 
 // ---- fotos: se comprimen en el navegador antes de enviar ----
-var CAJAS={frente:'fotoFrente', dorso:'fotoDorso', matricula:'fotoMatricula'};
-var ETIQ={frente:'DNI frente', dorso:'DNI dorso', matricula:'Matrícula'};
+var CAJAS={frente:'fotoFrente', dorso:'fotoDorso', matricula:'fotoMatricula', libredeuda:'fotoLibreDeuda'};
+var ETIQ={frente:'DNI frente', dorso:'DNI dorso', matricula:'Credencial', libredeuda:'Libre deuda'};
 function cargarFoto(input, lado){
   var f=input.files && input.files[0]; if(!f) return;
   var lector=new FileReader();
+  if(f.type==='application/pdf'){
+    if(f.size>8*1024*1024){ $('errFotos').textContent='El PDF es muy pesado (máximo 8 MB).'; return; }
+    lector.onload=function(e){
+      datos.fotos[lado]=e.target.result;
+      var box=$(CAJAS[lado]); box.classList.add('ok');
+      if(!box.querySelector('.pdf')){ var d=document.createElement('div'); d.className='pdf'; d.textContent='📄'; box.appendChild(d); }
+      if(!box.querySelector('.tag')){ var t=document.createElement('span'); t.className='tag'; t.textContent='✓ '+ETIQ[lado]+' (PDF)'; box.appendChild(t); }
+      $('errFotos').textContent='';
+    };
+    lector.readAsDataURL(f); return;
+  }
   lector.onload=function(e){
     var img=new Image();
     img.onload=function(){
@@ -453,15 +524,16 @@ function cargarFoto(input, lado){
 
 // ---- resumen y envio ----
 function registro(){
-  var ab=esAbogado(), esA=datos.comprobante==="Factura A";
+  var ab=esAbogado(), co=esContador(), esA=datos.comprobante==="Factura A";
   return {
     nombre: capitalizar(val('nombre')), apellido: capitalizar(val('apellido')),
     dni: soloNum(val('dni')), email: val('email').toLowerCase(), celular: soloNum(val('celular')),
     provincia: val('provincia'), ciudad: capitalizar(val('ciudad')),
-    formacion: datos.profesion==="Otra profesión" ? val('formacionOtra') : datos.profesion,
-    matricula: ab ? val('matricula') : '', cuil: ab ? soloNum(val('cuil')) : '',
-    beneficios: ab ? beneficiosElegidos().join('; ') : '',
-    acceso: datos.acceso, actividad: val('actividad'),
+    formacion: datos.profesion==="Otra actividad" ? val('formacionOtra') : datos.profesion,
+    entidad: ab ? 'Colegio Público de Abogados' : (co ? 'Consejo de Ciencias Económicas' : ''),
+    matricula: ab ? val('matricula') : '', cuil: ab ? soloNum(val('cuil')) : (co ? soloNum(val('cuitContador')) : ''),
+    beneficios: ab ? beneficiosElegidos().join('; ') : (co ? (document.querySelector('#beneficiosContador input:checked')||{}).value||'' : ''),
+    acceso: datos.acceso, usos: datos.usos.join('; '), actividad: val('actividad'),
     comprobante: datos.comprobante, razonSocial: esA ? val('razon') : '', cuit: esA ? soloNum(val('cuit')) : '',
     refNombre: capitalizar(val('refNombre')), refVinculo: val('refVinculo'), refTel: soloNum(val('refTel')),
     medio: datos.medio, medioDetalle: $('medioDetalleWrap').classList.contains('oculto') ? '' : val('medioDetalle'),
@@ -474,12 +546,12 @@ function armarResumen(){
     ['Nombre', r.nombre+' '+r.apellido],['DNI', r.dni],['Correo', r.email],['Celular', r.celular],
     ['Ubicación', r.ciudad+', '+r.provincia],['Profesión', r.formacion]
   ];
-  if(r.matricula){ filas.push(['Matrícula', r.matricula],['CUIL', r.cuil],['Beneficios', r.beneficios]); }
-  filas.push(['Cómo trabaja', r.acceso],['Empresa / estudio', r.actividad||'—'],
+  if(r.entidad){ filas.push(['Entidad', r.entidad]); if(r.matricula) filas.push(['Matrícula', r.matricula]); filas.push([esContador()?'CUIT/CUIL':'CUIL', r.cuil],['Beneficio', r.beneficios]); }
+  filas.push(['Cómo desarrolla su actividad', r.acceso],['Uso de Oruga', r.usos],['Empresa / estudio', r.actividad||'—'],
     ['Comprobante', r.comprobante + (r.cuit?' · '+r.razonSocial+' · CUIT '+r.cuit:'')],
     ['Contacto alternativo', r.refNombre+' ('+r.refVinculo+') '+r.refTel],
     ['Nos conociste por', r.medio + (r.medioDetalle?' · '+r.medioDetalle:'')],
-    ['Fotos', r.matricula ? 'DNI y matrícula ✓' : 'DNI frente y dorso ✓']);
+    ['Documentación', esAbogado() ? 'DNI y matrícula ✓' : (esContador() ? 'DNI, credencial y libre deuda ✓' : 'DNI frente y dorso ✓')]);
   $('resumen').innerHTML = filas.map(function(f){
     return '<div><dt>'+f[0]+'</dt><dd>'+String(f[1]).replace(/</g,'&lt;')+'</dd></div>';
   }).join('');
@@ -489,7 +561,8 @@ function enviar(){
   if(!SHEETS_URL || SHEETS_URL.indexOf('PEGAR')===0){ msg.textContent='Falta configurar la conexión con la planilla.'; return; }
   btn.disabled=true; btn.textContent='Enviando…'; msg.textContent='Subiendo tus datos y fotos, no cierres esta página.';
   var cuerpo=registro(); cuerpo.fotoFrente=datos.fotos.frente; cuerpo.fotoDorso=datos.fotos.dorso;
-  cuerpo.fotoMatricula = esAbogado() ? datos.fotos.matricula : null;
+  cuerpo.fotoMatricula = (esAbogado()||esContador()) ? datos.fotos.matricula : null;
+  cuerpo.fotoLibreDeuda = esContador() ? datos.fotos.libredeuda : null;
   fetch(SHEETS_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(cuerpo)})
     .then(function(r){ return r.json(); })
     .then(function(res){
